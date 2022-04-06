@@ -17,9 +17,10 @@ public class ChatClient {
     public static void main(String[] args) throws UnknownHostException, IOException {
         Socket clientSocket = new Socket("localhost", 2222);
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        System.out.println(in.readLine());
         Scanner reader = new Scanner(System.in);
-        out.println(reader.nextLine());
+        new Thread(new ReceiveMessage(clientSocket)).start();
+        while (!clientSocket.isClosed()) {
+            out.println(reader.nextLine());
+        }
     }
 }
