@@ -14,11 +14,11 @@ public class ChatClient implements Runnable {
     private ChatChannel currentChannel;
     private String clientName;
 
-    public ChatClient(Socket theClientSocket, ChatChannel currentChannel)
+    public ChatClient(Socket clientSocket, ChatChannel currentChannel)
     {
         try
         {
-            this.clientSocket = theClientSocket;
+            this.clientSocket = clientSocket;
             this.currentChannel = currentChannel;
             this.clientOutput = new PrintStream(this.clientSocket.getOutputStream());
             this.clientInput = new Scanner(this.clientSocket.getInputStream());

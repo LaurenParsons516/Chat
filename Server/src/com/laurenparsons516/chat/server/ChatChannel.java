@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ChatChannel {
 
-    private Map<String, String> sharedFiles = new HashMap<>();
+    private Map<String, String> sharedTorrents = new HashMap<>();
     private List<ChatClient> chatClients = new ArrayList<>();
 
     public void addClient(ChatClient client) {
@@ -17,18 +17,18 @@ public class ChatChannel {
 
 
     public void sendMessage(ChatClient messenger, String message) {
-        if (message.startsWith("|file upload|")) {
+        if (message.startsWith("|torrent upload|")) {
             String[] splitMessage = message.split("\\|");
             String fileName = splitMessage[2];
             String fileContent = splitMessage[3];
-            sharedFiles.put(fileName, fileContent);
-            sendMessage(messenger, "uploaded " + fileName);
+            sharedTorrents.put(fileName, fileContent);
+            sendMessage(messenger, "uploaded torrent " + fileName);
         } else if (message.startsWith("/download")) {
             String[] splitMessage = message.split("/download ");
             String fileName = splitMessage[1];
-            String fileContent = sharedFiles.get(fileName);
-            messenger.sendMessage("About to download " + fileName);
-            messenger.sendMessage("|file download|" + fileName + "|" + fileContent);
+            String fileContent = sharedTorrents.get(fileName);
+            messenger.sendMessage("Downloading " + fileName);
+            messenger.sendMessage("|torrent download|" + fileName + "|" +  fileContent);
         } else {
             message = messenger.getClientName() + ": " + message;
             for (ChatClient client : chatClients) {
